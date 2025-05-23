@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 
+
 import activityImgURL from "../assets/images/cookies.svg";
 import HomeHeader from "../components/header/HomeHeader.react";
 import { useNavigate } from "react-router-dom";
@@ -1013,3 +1014,4 @@ export const Home = () => {
 };
 
 export default Home;
+

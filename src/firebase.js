@@ -6,14 +6,13 @@ import {
   signOut,
 } from "firebase/auth";
 import Cookies from "js-cookie";
-import { setDoc, doc, serverTimestamp, getFirestore } from "firebase/firestore";
+import { getDatabase, ref, set, serverTimestamp } from "firebase/database";
 import { getStorage } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDCxd1wyv-aunumbJOEf1ufnPL_PqO1L-4",
   authDomain: "ar-fitness-cc8f4.firebaseapp.com",
+  databaseURL: "https://ar-fitness-cc8f4-default-rtdb.firebaseio.com",
   projectId: "ar-fitness-cc8f4",
   storageBucket: "ar-fitness-cc8f4.firebasestorage.app",
   messagingSenderId: "462031079702",
@@ -21,10 +20,9 @@ const firebaseConfig = {
   measurementId: "G-50ZGB9MQXK"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const db = getDatabase(app);
 export const storage = getStorage(app);
 
 export const signInWithGoogle = async () => {
@@ -44,8 +42,9 @@ export const signInWithGoogle = async () => {
     localStorage.setItem("name", name);
     localStorage.setItem("email", email);
     localStorage.setItem("photo", photo);
-    const docRef = doc(db, "user", uid);
-    await setDoc(docRef, {
+
+    const userRef = ref(db, `user/${uid}`);
+    await set(userRef, {
       userID: uid,
       timeStamp: serverTimestamp(),
       name: res.user.displayName,
@@ -56,7 +55,6 @@ export const signInWithGoogle = async () => {
   }
 };
 
-//   Logout Fucntion
 export const logout = () => {
   signOut(auth);
   localStorage.clear();
