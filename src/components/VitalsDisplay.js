@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const VitalsMonitor = () => {
   // Hardcoded demo values
   const heartRate = "--";
