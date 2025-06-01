@@ -174,7 +174,7 @@ const Landing = () => {
             }}
             className="text-gradient"
           >
-            Why AR Fitness?
+            Why SyncSole?
           </Typography>
           <Typography
             variant="h6"
@@ -312,13 +312,14 @@ const Landing = () => {
               width: "100%",
             }}
           >
-            Our goal is to detect a person from a perfect side view and measure
-            from neck to torso inclination to some reference axis. By monitoring
-            the inclination angle when the person bends below a certain
-            threshold angle. Other features include measuring the time of a
-            particular posture and the camera alignment. Hence the alignment
-            feature is required and integrate this functionality on a website
-            which provides pattern in which the task
+            We are a team of passionate engineering students from the Electronics and Instrumentation Department at M S Ramaiah Institute of Technology,
+             working under the guidance of Dr. M K Pushpa. Our team—Harsh Gaurav, Lucky Kumar, Abhay Chaudhary, and Shreyas Mahajan—is committed to
+              developing innovative solutions that merge health and technology. Our project, Syncsole, is a smart wearable system embedded in footwear,
+               designed to provide real-time tracking of motion and heart rate using embedded sensors. By integrating ADXL345 and PPG sensors with the 
+               ESP32 microcontroller, we aim to address the limitations of traditional fitness trackers by focusing on lower-body movements. We strive
+                to empower athletes, patients, and fitness enthusiasts with accurate, unobtrusive, and intelligent health monitoring.
+
+
           </Typography>
         </Box>
       </Container>
@@ -394,8 +395,8 @@ const Landing = () => {
               fontWeight: "100",
             }}
           >
-            Ar Fitness counts reps, mistakes and saving all data in a training
-            report and in a general progress log.
+            Syncsole enables automatic tracking of foot motion and heart rate in real-time, eliminating
+            the need for manual input and ensuring seamless, continuous monitoring for enhanced health and fitness insights.
           </Typography>
         </Box>
       </Container>

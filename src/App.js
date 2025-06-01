@@ -92,7 +92,16 @@ function App() {
             marginTop: { lg: 0, xs: "1rem" },
           }}
         >
-          <img src={logo} alt="logo" width="60%" />
+          <img
+            src={logo}
+            alt="logo"
+            style={{
+              width: "clamp(60px, 10vw, 80px)",
+              height: "auto",
+              maxWidth: "100%",
+              objectFit: "contain"
+            }}
+          />
         </Box>
         <Typography
           variant="h6"
@@ -102,9 +111,9 @@ function App() {
             textAlign: "center",
           }}
         >
-          © 2021{" "}
+          © 2025{" "}
           <a href="/" className="link">
-            <span style={{ color: "#F15C26" }}>AR FITNESS </span>
+            <span style={{ color: "#F15C26" }}>SyncSole </span>
           </a>
           All rights reserved.
         </Typography>

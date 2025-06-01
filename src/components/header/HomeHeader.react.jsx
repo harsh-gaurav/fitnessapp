@@ -57,7 +57,16 @@ const HomeHeader = ({ props }) => {
               alignItems: { md: "center", sm: "center", xs: "center" },
             }}
           >
-            <img src={LogoWithText} alt="logo" width="50%"></img>
+            <img
+              src={LogoWithText}
+              alt="logo"
+              style={{
+                width: "clamp(80px, 15vw, 120px)",
+                height: "auto",
+                maxWidth: "100%",
+                objectFit: "contain"
+              }}
+            />
           </Box>
         </Link>
         <List
@@ -161,7 +170,16 @@ const HomeHeader = ({ props }) => {
                   alignItems: { md: "center", sm: "center", xs: "center" },
                 }}
               >
-                <img src={LogoWithText} alt="logo" width="50%"></img>
+                <img
+                  src={LogoWithText}
+                  alt="logo"
+                  style={{
+                    width: "clamp(80px, 15vw, 120px)",
+                    height: "auto",
+                    maxWidth: "100%",
+                    objectFit: "contain"
+                  }}
+                />
               </Box>
             </Link>
             <Box

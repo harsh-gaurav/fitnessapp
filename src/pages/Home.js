@@ -23,6 +23,7 @@ import { db } from "../firebase";
 import motivation from "../assets/images/motivation.svg";
 import { Line, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from "chart.js";
+import VitalsMonitor from "../components/VitalsDisplay";
 import {
   AutoGraphOutlined,
   DonutLargeOutlined,
@@ -119,6 +120,12 @@ export const Home = () => {
       setCrunchesStartTimeCol(initalTime);
     };
     const fetchQuotes = async () => {
+      // Check if API key is available
+      if (!process.env.REACT_APP_QUOTES_API_KEY || process.env.REACT_APP_QUOTES_API_KEY === 'your_rapidapi_key_here') {
+        console.error('RapidAPI key is not set. Please add your API key to the .env file');
+        return;
+      }
+
       const options = {
         method: "GET",
         headers: {
@@ -127,10 +134,23 @@ export const Home = () => {
         },
       };
 
-      fetch("https://quotes15.p.rapidapi.com/quotes/random/", options)
-        .then((response) => response.json())
-        .then((response) => setQuotes(response))
-        .catch((err) => console.error(err));
+      try {
+        const response = await fetch("https://quotes15.p.rapidapi.com/quotes/random/", options);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setQuotes(data);
+      } catch (err) {
+        console.error('Error fetching quotes:', err);
+        // Set a fallback quote if API fails
+        setQuotes({
+          content: "The only way to do great work is to love what you do.",
+          originator: { name: "Steve Jobs" }
+        });
+      }
     };
     fetchBicepTime();
     fetchPushUpTime();
@@ -351,7 +371,58 @@ export const Home = () => {
         }}
         maxWidth="false"
       >
-        {/* 3 Column */}
+        {/* Activity & Vitals Column */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            maxWidth: { lg: "320px", sm: "320px", xs: "100%" },
+            width: "100%",
+            borderRadius: "24px",
+            background: "linear-gradient(135deg, rgba(241, 92, 38, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%)",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            padding: "1.5rem",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+          }}
+          className="glassmorphism"
+        >
+          <Typography
+            variant="h6"
+            color="secondary"
+            sx={{
+              fontWeight: "bold",
+              display: "flex",
+              marginBottom: "1rem",
+              gap: "1rem",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "1.2rem",
+            }}
+          >
+            📊 Activity Monitor <AutoGraphOutlined />
+          </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "150px",
+              height: "150px",
+              mb: 2,
+            }}
+          >
+            <img src={activityImgURL} alt="Activity" width="100%" />
+          </Box>
+
+          {/* Vitals Monitor */}
+          <Box sx={{ width: "100%" }}>
+            <VitalsMonitor />
+          </Box>
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -373,14 +444,17 @@ export const Home = () => {
               alignItems: "center",
               gap: "1rem",
               width: "100%",
-              background: "#fff",
+              background: "linear-gradient(135deg, #fff 0%, #f8f9fa 100%)",
               borderRadius: "24px",
-              padding: "1rem",
+              padding: "2rem",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
             }}
           >
             <Box
               sx={{
                 textAlign: "center",
+                width: "100%",
               }}
             >
               <Typography
@@ -388,36 +462,59 @@ export const Home = () => {
                 color="primary"
                 sx={{
                   fontWeight: "700",
-                  fontSize: { lg: "2rem", sm: "1.5rem", xs: "1rem" },
+                  fontSize: { lg: "2.5rem", sm: "2rem", xs: "1.5rem" },
+                  mb: 2,
+                  background: "linear-gradient(45deg, #F15C26 30%, #FF8A50 90%)",
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
                 }}
               >
-                Welcome to AR FITNESS!
+                🏋️ Welcome to SyncSole!
               </Typography>
-              <Typography
-                variant="h4"
-                color="primary"
+              <Box
                 sx={{
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
                   gap: "1rem",
-                  fontSize: { lg: "1.5rem", sm: "1rem", xs: "1rem" },
+                  mb: 2,
                 }}
               >
                 <Avatar
                   src={photo}
                   alt={name}
                   sx={{
-                    width: { lg: "3rem", sm: "2rem", xs: "1.5rem" },
-                    height: { lg: "3rem", sm: "2rem", xs: "1.5rem" },
+                    width: { lg: "4rem", sm: "3rem", xs: "2.5rem" },
+                    height: { lg: "4rem", sm: "3rem", xs: "2.5rem" },
+                    border: "3px solid #F15C26",
+                    boxShadow: "0 4px 16px rgba(241, 92, 38, 0.3)",
                   }}
                 />
-                {name}
-              </Typography>
-              <Typography variant="body1" color="primary">
-                Staying active is key to a healthy lifestyle, and we're here to
-                support you every step of the way.
+                <Typography
+                  variant="h4"
+                  color="primary"
+                  sx={{
+                    fontSize: { lg: "1.8rem", sm: "1.4rem", xs: "1.2rem" },
+                    fontWeight: "600",
+                  }}
+                >
+                  Hello, {name}! 👋
+                </Typography>
+              </Box>
+              <Typography
+                variant="body1"
+                color="primary"
+                sx={{
+                  fontSize: { lg: "1.1rem", sm: "1rem", xs: "0.9rem" },
+                  opacity: 0.8,
+                  maxWidth: "600px",
+                  margin: "0 auto",
+                  lineHeight: 1.6,
+                }}
+              >
+                🌟 Staying active is key to a healthy lifestyle, and we're here to support you every step of the way. Let's make today amazing!
               </Typography>
             </Box>
           </Box>
@@ -442,6 +539,11 @@ export const Home = () => {
                 maxWidth: { lg: "300px", sm: "300px", xs: "100%" },
                 width: "100%",
                 borderRadius: "24px",
+                background: "linear-gradient(135deg, rgba(241, 92, 38, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%)",
+                backdropFilter: "blur(10px)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                padding: "1.5rem",
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
               }}
               className="glassmorphism"
             >
@@ -451,22 +553,23 @@ export const Home = () => {
                 sx={{
                   fontWeight: "bold",
                   display: "flex",
-                  marginTop: "1rem",
+                  marginBottom: "1rem",
                   gap: "1rem",
                   justifyContent: "center",
                   alignItems: "center",
+                  fontSize: "1.2rem",
                 }}
               >
-                Activity <AutoGraphOutlined />
+                🍪 Cookie Progress <AutoGraphOutlined />
               </Typography>
               <Box
                 sx={{
                   display: "flex",
-
                   justifyContent: "center",
                   alignItems: "center",
-                  width: "170px",
-                  height: "170px",
+                  width: "150px",
+                  height: "150px",
+                  mb: 2,
                 }}
               >
                 <img src={activityImgURL} alt="Activity" width="100%" />
@@ -478,7 +581,7 @@ export const Home = () => {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  padding: "0.5rem",
+                  gap: "1rem",
                 }}
               >
                 <Typography
@@ -486,43 +589,93 @@ export const Home = () => {
                   sx={{
                     color: "#fff",
                     textAlign: "center",
-                    paddingBottom: "1rem",
+                    fontSize: "1rem",
+                    lineHeight: 1.5,
                   }}
                 >
                   You are{" "}
-                  <span style={{ color: "#F15C26" }}>{cookiesPercentage}%</span>{" "}
-                  away from having another Cookie! Perform an excerise to
-                  increase that number faster now!
+                  <span style={{
+                    color: "#F15C26",
+                    fontWeight: "bold",
+                    fontSize: "1.2rem"
+                  }}>
+                    {cookiesPercentage.toFixed(1)}%
+                  </span>{" "}
+                  away from earning another Cookie! 🎯
                 </Typography>
                 <Link to="/workout" className="link">
-                  <Button variant="contained" color="secondary">
-                    Get more Closer!!!
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    sx={{
+                      px: 3,
+                      py: 1,
+                      borderRadius: "12px",
+                      fontWeight: "bold",
+                      textTransform: "none",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    🔥 Start Workout
                   </Button>
                 </Link>
               </Box>
             </Box>
             {weight.length === 0 || goalWeight.length === 0 ? (
-              <Typography
-                variant="h6"
-                color="secondary"
-                className="glassmorphism"
+              <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
+                  maxWidth: { lg: "300px", sm: "300px", xs: "100%" },
+                  width: "100%",
                   borderRadius: "24px",
-                  padding: "0.5rem",
-                  gap: "1rem",
+                  padding: "2rem",
+                  background: "linear-gradient(135deg, rgba(241, 92, 38, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%)",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
                 }}
+                className="glassmorphism"
               >
-                Please fill the measuremnet form to get your analysis
+                <Typography
+                  variant="h6"
+                  color="secondary"
+                  sx={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    mb: 2,
+                  }}
+                >
+                  📊 Setup Analytics
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="secondary"
+                  sx={{
+                    textAlign: "center",
+                    mb: 3,
+                    opacity: 0.9,
+                  }}
+                >
+                  Complete your measurements to see detailed progress analytics
+                </Typography>
                 <Link to="/bm" className="link">
-                  <Button variant="contained" color="secondary">
-                    Measurement
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    sx={{
+                      px: 3,
+                      py: 1,
+                      borderRadius: "12px",
+                      fontWeight: "bold",
+                      textTransform: "none",
+                    }}
+                  >
+                    📏 Add Now
                   </Button>
                 </Link>
-              </Typography>
+              </Box>
             ) : (
               <Box
                 sx={{
@@ -723,14 +876,7 @@ export const Home = () => {
                       color: "#fff",
                     }}
                   />
-                  <Chip
-                    icon={<Checkbox color="success" sx={{ color: "#fff" }} />}
-                    label="Dumble"
-                    variant="outlined"
-                    sx={{
-                      color: "#fff",
-                    }}
-                  />
+                
                   <Chip
                     icon={<Checkbox color="success" sx={{ color: "#fff" }} />}
                     label="Headphones"
@@ -753,7 +899,6 @@ export const Home = () => {
           </Box>
         </Box>
         {/* 2 Column */}
-
         <Box
           sx={{
             display: "flex",
@@ -762,27 +907,65 @@ export const Home = () => {
             alignItems: "center",
             width: { lg: "40%", sm: "80%", xs: "100%" },
             padding: "1rem",
-            // height: { lg: "100vh", sm: "100%", xs: "100%" },
           }}
         >
           {weight.length === 0 || goalWeight.length === 0 ? (
-            <Typography
-              variant="h6"
-              color="secondary"
+            <Box
               sx={{
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: "1rem",
+                gap: "2rem",
+                width: "100%",
+                borderRadius: "24px",
+                padding: "2rem",
+                background: "linear-gradient(135deg, rgba(241, 92, 38, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%)",
+                backdropFilter: "blur(10px)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
               }}
+              className="glassmorphism"
             >
-              Please fill the measuremnet form to get your analysis
+              <Typography
+                variant="h5"
+                color="secondary"
+                sx={{
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  mb: 1,
+                }}
+              >
+                📊 Complete Your Profile
+              </Typography>
+              <Typography
+                variant="body1"
+                color="secondary"
+                sx={{
+                  textAlign: "center",
+                  mb: 2,
+                  opacity: 0.9,
+                }}
+              >
+                Fill out your measurements to unlock personalized analytics and track your fitness journey!
+              </Typography>
               <Link to="/bm" className="link">
-                <Button variant="contained" color="secondary">
-                  Measurement
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                  sx={{
+                    px: 4,
+                    py: 1.5,
+                    borderRadius: "12px",
+                    fontWeight: "bold",
+                    textTransform: "none",
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  📏 Add Measurements
                 </Button>
               </Link>
-            </Typography>
+            </Box>
           ) : (
             <Box
               sx={{

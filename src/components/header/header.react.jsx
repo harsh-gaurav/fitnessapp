@@ -52,7 +52,16 @@ const Header = () => {
               width: { lg: "100%", md: "100%", sm: "100%", xs: "100%" },
             }}
           >
-            <img src={LogoWithText} alt="logo" width="100%"></img>
+            <img
+              src={LogoWithText}
+              alt="logo"
+              style={{
+                width: "clamp(80px, 15vw, 120px)",
+                height: "auto",
+                maxWidth: "100%",
+                objectFit: "contain"
+              }}
+            />
           </Box>
         </Link>
 
@@ -141,7 +150,16 @@ const Header = () => {
                     width: { lg: "50%", sm: "50%", xs: "80%" },
                   }}
                 >
-                  <img src={LogoWithText} alt="logo" width="100%"></img>
+                  <img
+                    src={LogoWithText}
+                    alt="logo"
+                    style={{
+                      width: "clamp(80px, 15vw, 120px)",
+                      height: "auto",
+                      maxWidth: "100%",
+                      objectFit: "contain"
+                    }}
+                  />
                 </Box>
               </Link>
               <Link to="/login" className="link">

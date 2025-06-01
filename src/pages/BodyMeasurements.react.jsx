@@ -297,9 +297,9 @@ const BodyMeasurements = () => {
             </Box>
           </Box>
 
-          <Button variant="contained" color="secondary" onClick={handleClick}>
+          {/* <Button variant="contained" color="secondary" onClick={handleClick}>
             Submit
-          </Button>
+          </Button> */}
         </Box>
       </Container>
     </>

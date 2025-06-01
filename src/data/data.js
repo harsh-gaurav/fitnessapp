@@ -1,23 +1,23 @@
 export const features = [
   {
     id: 1,
-    title: "It maintains your health",
+    title: "Seamless Real-Time Fitness Tracking",
     description:
-      "IMPROPER execution is going to decrease the effectiveness of the training stimulus and increase the risk of injury.",
+      "Syncsole monitors key health metrics like steps, heart rate, and SpO₂ directly from your shoes—offering a hands-free, always-on alternative to wearables like fitness bands or smartwatches.",
     icon: "star_rate_icon",
   },
   {
     id: 2,
-    title: "Customized",
+    title: "Enhanced Accuracy and Safety",
     description:
-      "Our AI powered fitness app will guide you with the best program to help you get a healthy and ideal body.",
+      " Being foot-based, it provides more accurate step and gait analysis. It also supports features like fall detection and posture monitoring, making it ideal for both fitness users and elderly care.",
     icon: "beenhere_icon",
   },
   {
     id: 3,
-    title: "Easy to Use",
+    title: "Comfortable and Effortless Integration",
     description:
-      "Our AI powered fitness app will guide you with the best program to help you get a healthy and ideal body.",
+      "As a smart shoe, Syncsole becomes a natural part of your daily routine—no need to remember extra devices or chargers, just wear and go.",
     icon: "auto_mode_icon",
   },
 ];
@@ -27,22 +27,22 @@ export const testimonial = [
     id: 1,
     name: "Aditya Borkar",
     description:
-      "Great application.. you can do your workout at home with correct form and counting.. so there is less chance to get injury.. I suggest everyone to use this app.. Thank you",
-    role: "Fitness Trainer",
+     "The data from the app matches my smartwatch, but I don’t need to wear anything extra. Plus, the cloud integration via ThingSpeak is smooth and useful for tracking over time.",
+    role: "Student",
   },
   {
     id: 2,
     name: "Sahil Bhavsar",
     description:
-      "This app is amazing 😍 it's very beneficial for those who is not hiring trainer for workout at gym infact it's good 😊 and nice app",
-    role: "Gym Trainee",
+      " I am using Syncsole during my post-injury rehab. The motion tracking from the ADXL345 sensor is impressive, and my therapist loves the real-time gait insights the app shows.",
+    role: "Athlete",
   },
   {
     id: 3,
     name: "Omkar",
     description:
-      "As an active gym person, sometime it gets very difficult to count our reps on a particular heavy set that too keeping a good form, this project will help to counter the issue. Also the body tracking feature makes it even more accurate to work on our form.",
-    role: "Weight Lifter",
+      "The features are excellent—step count, heart rate, and cloud syncing. Just wish the app UI was a bit more modern. Functionally, no complaints.",
+    role: "Corporate Employee",
   },
 ];
 

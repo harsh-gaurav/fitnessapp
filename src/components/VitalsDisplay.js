@@ -1,44 +1,76 @@
-// src/components/VitalsMonitor.js
-import React, { useEffect, useState } from "react";
-import { database, auth } from "../firebase"; // Import your Firebase instances
-import { ref, onValue } from "firebase/database";
+import React from "react";
 
 const VitalsMonitor = () => {
-  const [heartRate, setHeartRate] = useState("-");
-  const [spo2, setSpo2] = useState("-");
-  const [stepCount, setStepCount] = useState("-");
+  // Hardcoded demo values
+  const heartRate = "--";
+  const spo2 = "--";
+  const stepCount = "--";
 
-  useEffect(() => {
-    // Get current logged-in user
-    const user = auth.currentUser;
-    if (!user) {
-      console.warn("No user logged in");
-      return;
-    }
+  return (    <div style={{ 
+      padding: "1.5rem",
+      color: "white",
+      borderRadius: "24px",
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem"
+    }}>
+      <h2 style={{ 
+        margin: 0,
+        fontSize: "1.5rem",
+        color: "#F15C26",
+        fontWeight: "bold"
+      }}>Real-Time Health Metrics</h2>
+      <div style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem"
+      }}>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          padding: "1rem",
+          borderRadius: "12px"
+        }}>
+          <span style={{ fontSize: "1.5rem" }}>❤️</span>
+          <div>
+            <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>Heart Rate</div>
+            <div style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{heartRate} BPM</div>
+          </div>
+        </div>
+        
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          padding: "1rem",
+          borderRadius: "12px"
+        }}>
+          <span style={{ fontSize: "1.5rem" }}>🫁</span>
+          <div>
+            <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>Blood Oxygen</div>
+            <div style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{spo2}%</div>
+          </div>
+        </div>
 
-    // Create a reference to this user's vitals in Realtime DB
-    const userVitalsRef = ref(database, `users/${user.uid}`);
-
-    // Listen to realtime updates
-    const unsubscribe = onValue(userVitalsRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        setHeartRate(data.heartRate ?? "-");
-        setSpo2(data.spo2 ?? "-");
-        setStepCount(data.stepCount ?? "-");
-      }
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
-
-  return (
-    <div style={{ padding: "20px", color: "white", backgroundColor: "#222", borderRadius: "10px", maxWidth: "300px" }}>
-      <h2>Real-Time Health Metrics</h2>
-      <p>❤️ Heart Rate: {heartRate} BPM</p>
-      <p>🫁 SpO2: {spo2} %</p>
-      <p>👟 Step Count: {stepCount}</p>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          backgroundColor: "rgba(255, 255, 255, 0.1)",
+          padding: "1rem",
+          borderRadius: "12px"
+        }}>
+          <span style={{ fontSize: "1.5rem" }}>👟</span>
+          <div>
+            <div style={{ fontSize: "0.9rem", opacity: 0.8 }}>Steps Today</div>
+            <div style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{stepCount}</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
